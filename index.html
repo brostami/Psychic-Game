@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Psychic Game</title>
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="assets/javascript/game.js"></script> -->
+</head>
+<body>
+    <header class="jumbotron">
+        <h1>Psychic Game</h1>
+    </header>
+
+    <div id="game">
+        <p>Guess what letter I'm thinking of.</p>
+        <p>Wins: </p>
+        <p>Losses: </p>
+        <p>Guesses Left: 9</p>
+        <p>Your Guesses So Far: </p>
+    </div>
+
+    <script>
+        var letters = ["abcdefghijklmnopqrstuvwxyz"]
+        var guessedLetters = [];
+        var wins = 0;
+        var losses = 0;
+        var numberGuesses = 9;
+        //var randomLetter = letters[Math.floor(Math.random() * letters.length)];
+        var randomLetter = "t";
+        var win = false;
+
+        // When the user presses a key, it will run the following function...
+        document.onkeyup = function(event) {
+
+            // Determine which key was pressed
+            var userGuess = event.key.toLowerCase();
+            //var userGuess = keyPressed.toLowerCase();
+
+            function endGame() {
+                if (win === true) {
+                    wins++;
+                    numberGuesses = 9;
+                    randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                    guessedLetters = [];
+                }
+                else {
+                    losses++;
+                    numberGuesses = 9;
+                    randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                    guessedLetters = [];
+                }
+            }
+
+            function print() {
+                var html = "<p>Guess what letter I'm thinking of.</p>" + 
+                "<p>Wins: " + wins + "</p>" +
+                "<p>Losses: " + losses + "</p>" +
+                "<p>Guesses Left: " + numberGuesses + "</p>" +
+                "<p>Your Guesses So Far: " + guessedLetters.toString() + "</p>";
+
+                document.querySelector("#game").innerHTML = html;
+            }
+
+            //function allLetter(userGuess)  {  
+              // var letters = /^[A-Za-z]+$/;  
+               //if(userGuess.value.match(letters))  
+                 //{  
+                  //return true;  
+                 /*}  
+               else  
+                 {  
+                 alert("message");  
+                 return false;  
+                 }  
+            }  */
+
+            if (numberGuesses > 1) {
+
+                //if (allLetter(userGuess) === true) {
+                var guess = userGuess.toLowerCase();
+
+                if (guess.charCodeAt(0) >= 97 && guess.charCodeAt(0) <= 122) {
+
+                        if (guessedLetters.includes(guess) === true) {
+
+                            endGame ();
+                            print();
+
+
+                        }
+                        else {
+                            if (guess === randomLetter) {
+                                win = true;
+                                endGame();
+                                print();
+                                //wins++;
+                                //numberGuesses = 9;
+                                //randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                            }
+                            else {
+                                numberGuesses--;
+                                guessedLetters.push(guess);
+                                print();
+                            }
+                        }
+                }
+                
+            }
+            else {
+
+                    endGame();
+                    print();
+            }    
+            
+        };
+
+    </script>
+
+</body>
+</html>
