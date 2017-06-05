@@ -16,8 +16,8 @@
 
     <div id="game">
         <p>Guess what letter I'm thinking of.</p>
-        <p>Wins: </p>
-        <p>Losses: </p>
+        <p>Wins: 0</p>
+        <p>Losses: 0</p>
         <p>Guesses Left: 9</p>
         <p>Your Guesses So Far: </p>
     </div>
@@ -31,78 +31,55 @@
         //var randomLetter = letters[Math.floor(Math.random() * letters.length)];
         var randomLetter = "t";
         var win = false;
-
+        
         // When the user presses a key, it will run the following function...
         document.onkeyup = function(event) {
-
             // Determine which key was pressed
-            var userGuess = event.key.toLowerCase();
-            //var userGuess = keyPressed.toLowerCase();
+            var userGuess = event.key;
 
             function endGame() {
                 if (win === true) {
                     wins++;
-                    numberGuesses = 9;
-                    randomLetter = letters[Math.floor(Math.random() * letters.length)];
-                    guessedLetters = [];
                 }
                 else {
-                    losses++;
-                    numberGuesses = 9;
-                    randomLetter = letters[Math.floor(Math.random() * letters.length)];
-                    guessedLetters = [];
+                    losses++;     
                 }
+                
+                numberGuesses = 9;
+                randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                guessedLetters = [];
             }
-
+            
             function print() {
                 var html = "<p>Guess what letter I'm thinking of.</p>" + 
                 "<p>Wins: " + wins + "</p>" +
                 "<p>Losses: " + losses + "</p>" +
                 "<p>Guesses Left: " + numberGuesses + "</p>" +
                 "<p>Your Guesses So Far: " + guessedLetters.toString() + "</p>";
-
+                
                 document.querySelector("#game").innerHTML = html;
             }
 
-            //function allLetter(userGuess)  {  
-              // var letters = /^[A-Za-z]+$/;  
-               //if(userGuess.value.match(letters))  
-                 //{  
-                  //return true;  
-                 /*}  
-               else  
-                 {  
-                 alert("message");  
-                 return false;  
-                 }  
-            }  */
-
             if (numberGuesses > 1) {
+                
+                //var guess = userGuess.toLowerCase();
+                var ascii = userGuess.charCodeAt(0);
 
-                //if (allLetter(userGuess) === true) {
-                var guess = userGuess.toLowerCase();
-
-                if (guess.charCodeAt(0) >= 97 && guess.charCodeAt(0) <= 122) {
-
-                        if (guessedLetters.includes(guess) === true) {
-
-                            endGame ();
+                if (ascii >= 97 && ascii <= 122) {
+                        if (guessedLetters.includes(userGuess) === false) {
+                        /*    endGame ();
                             print();
-
-
-                        }
-                        else {
-                            if (guess === randomLetter) {
+                        }*/
+                        //else {
+                            if (userGuess === randomLetter) {
                                 win = true;
                                 endGame();
                                 print();
-                                //wins++;
-                                //numberGuesses = 9;
-                                //randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                                
                             }
                             else {
                                 numberGuesses--;
-                                guessedLetters.push(guess);
+                                guessedLetters.push(userGuess);
                                 print();
                             }
                         }
@@ -110,13 +87,12 @@
                 
             }
             else {
-
+                    win = false;
                     endGame();
                     print();
             }    
             
         };
-
     </script>
 
 </body>
